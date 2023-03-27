@@ -109,6 +109,11 @@ fn render_group(
     render_frame(canvas, ts, mask, &group.frame);
 }
 
+pub fn glyph_blackness(font: &crate::font::Font, id: GlyphId, size: f64) -> f64 {
+    let glyph = pixglyph::Glyph::load(font.ttf(), id).unwrap();
+    glyph.blackness(size as f32)
+}
+
 /// Render a text run into the canvas.
 fn render_text(
     canvas: &mut sk::Pixmap,

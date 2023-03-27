@@ -870,7 +870,7 @@ fn linebreak_optimized<'a>(vt: &Vt, p: &'a Preparation<'a>, width: Abs) -> Vec<L
         for (i, pred) in table.iter_mut().enumerate().skip(active) {
             // Layout the line.
             let start = pred.line.end;
-            let attempt = line(vt, p, start..end, mandatory, hyphen);
+            let mut attempt = line(vt, p, start..end, mandatory, hyphen);
 
             // Determine how much the line's spaces would need to be stretched
             // to make it the desired width.
@@ -1238,7 +1238,10 @@ fn commit(
                 && TextElem::overhang_in(text.styles)
                 && (reordered.len() > 1 || text.glyphs.len() > 1)
             {
-                let amount = overhang(glyph.c) * glyph.x_advance.at(text.size);
+                let amount = overhang_blackness(&glyph, text.size.to_pt());
+                // let amount = overhang(glyph.c) * glyph.x_advance.at(text.size);
+                let amount = amount * glyph.x_advance.at(text.size);
+                dbg!(glyph.c, amount);
                 remaining += amount;
             }
         }
@@ -1352,6 +1355,17 @@ fn reorder<'a>(line: &'a Line<'a>) -> (Vec<&Item<'a>>, bool) {
     }
 
     (reordered, starts_rtl)
+}
+
+fn overhang_blackness(glyph: &crate::text::ShapedGlyph, size: f64) -> f64 {
+    let hang = 1.0
+        - typst::export::glyph_blackness(
+            &glyph.font,
+            ttf_parser::GlyphId(glyph.glyph_id),
+            size,
+        ) * 2.0;
+
+    -hang
 }
 
 /// How much a character should hang into the end margin.
