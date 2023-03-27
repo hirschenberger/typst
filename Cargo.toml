@@ -15,7 +15,7 @@ bench = false
 typst-macros = { path = "macros" }
 bitflags = "1"
 bytemuck = "1"
-comemo = { git = "https://github.com/typst/comemo" }
+comemo = "0.2"
 ecow = "0.1"
 flate2 = "1"
 if_chain = "1"
@@ -36,7 +36,7 @@ svg2pdf = "0.4"
 thin-vec = "0.2"
 tiny-skia = "0.6.2"
 ttf-parser = "0.18.1"
-unicode-math-class = { git = "https://github.com/typst/unicode-math-class" }
+unicode-math-class = "0.1"
 unicode-segmentation = "1"
 unicode-xid = "0.2"
 unscanny = "0.1"

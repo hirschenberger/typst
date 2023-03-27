@@ -4,4 +4,4 @@ mod pdf;
 mod render;
 
 pub use self::pdf::pdf;
-pub use self::render::render;
+pub use self::render::{glyph_blackness, render};
